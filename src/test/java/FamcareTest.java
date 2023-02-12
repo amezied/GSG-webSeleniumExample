@@ -1,8 +1,7 @@
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -10,34 +9,32 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertTrue;
 
 public class FamcareTest {
-
-    ChromeDriver chromeDrive;
-    WebDriverWait wait;
-
+    MainTest mainTest= new MainTest();
+    ChromeDriver driver;
     @BeforeClass
     public void setUp(){
-        WebDriverManager.chromedriver().setup();
-        chromeDrive = new ChromeDriver();
-        wait = new WebDriverWait(chromeDrive,30);
-        chromeDrive.get("https://famcare.app/");
+        driver=  mainTest.setUp("https://famcare.app");
     }
     @Test(priority = 1)
     public void isSectionExist(){
         String sectionId="heroSection";
-        WebElement heroSection = chromeDrive.findElement(By.id(sectionId));
+        WebElement heroSection = driver.findElement(By.id(sectionId));
         assertTrue(heroSection.isDisplayed());
     }
     @Test(priority = 2)
     public void isAcademyBtnDisplay(){
-        WebElement academyBtnPath = chromeDrive.findElement(By.xpath("//a[@title='الأكاديمية']"));
+        WebElement academyBtnPath = driver.findElement(By.xpath("//a[@title='الأكاديمية']"));
         assertTrue(academyBtnPath.isDisplayed());
     }
     @Test(priority = 3)
     public void verifyAcademyBtnOpenAcademy(){
-        WebElement academyBtnPath = chromeDrive.findElement(By.xpath("//a[@title='الأكاديمية']"));
+        WebElement academyBtnPath = driver.findElement(By.xpath("//a[@title='الأكاديمية']"));
         academyBtnPath.click();
-        WebElement categoryBox = chromeDrive.findElement(By.xpath("//div[@data-id='3023636']"));
+        WebElement categoryBox = driver.findElement(By.xpath("//div[@data-id='3023636']"));
         assertTrue(categoryBox.isDisplayed());
     }
-
+    @AfterClass
+    public void tearDown(){
+        mainTest.tearDown();
+    }
 }

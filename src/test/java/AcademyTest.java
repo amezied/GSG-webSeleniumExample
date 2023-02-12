@@ -10,26 +10,21 @@ import org.testng.annotations.Test;
 
 
 public class AcademyTest {
-    ChromeDriver chromeDrive;
-    WebDriverWait wait;
-
+    MainTest mainTest= new MainTest();
+    ChromeDriver driver;
     @BeforeClass
     public void setUp(){
-        WebDriverManager.chromedriver().setup();
-        chromeDrive = new ChromeDriver();
-        wait = new WebDriverWait(chromeDrive,30);
-        chromeDrive.get("https://academy.famcare.app/");
+        driver=  mainTest.setUp("https://academy.famcare.app");
     }
     @Test
     public void verifyAcademyCategoryBox(){
-        WebElement categoryBox = chromeDrive.findElement(By.xpath("//div[@data-id='3023636']"));
+        WebElement categoryBox = driver.findElement(By.xpath("//div[@data-id='3023636']"));
         // clickable?
-        wait.until(ExpectedConditions.elementToBeClickable(categoryBox));
+        //wait.until(ExpectedConditions.elementToBeClickable(categoryBox));
         categoryBox.click();
     }
     @AfterClass
     public void tearDown(){
-        chromeDrive.quit();
-        System.out.println("after");
+        mainTest.tearDown();
     }
 }
